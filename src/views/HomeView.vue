@@ -1,9 +1,13 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <div 
+      class="h-5 w-5 bg-sky-500" 
+      :class="{ 'active' : isActive }"
+      @click="isActive = !isActive"
+    >
+    </div>
   </main>
 </template>
