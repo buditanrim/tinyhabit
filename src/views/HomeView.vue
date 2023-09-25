@@ -1,26 +1,36 @@
 <script setup>
 import { ref } from 'vue'
 
-let isActive = ref(true)
+const boxes = ref([
+  { id: 1, clicked: false },
+  { id: 2, clicked: false },
+  { id: 3, clicked: false },
+  { id: 4, clicked: false },
+  { id: 5, clicked: false },
+])
+
+function toggleBoxColor(box) {
+  box.clicked = !box.clicked;
+}
+
+const habit = ref([])
 
 </script>
 
 <template>
   <main>
-    <div class="flex">
-      <div class="m-2">
+    <div id="habit-row" class="flex">
+      <div class="mr-2">
         <p>Workout</p>
       </div>
       <div class="flex">
-        <div class="h-5 w-5 m-2 mr-1 bg-gray-200 border-gray-400" :class="{ 'active' : isActive }" @click="isActive = !isActive">
-        </div>
-        <div class="h-5 w-5 m-2 mr-1 bg-gray-200 border-gray-400" :class="{ 'active' : isActive }" @click="isActive = !isActive">
-        </div>
-        <div class="h-5 w-5 m-2 mr-1 bg-gray-200 border-gray-400" :class="{ 'active' : isActive }" @click="isActive = !isActive">
-        </div>
-        <div class="h-5 w-5 m-2 mr-1 bg-gray-200 border-gray-400" :class="{ 'active' : isActive }" @click="isActive = !isActive">
-        </div>
-        <div class="h-5 w-5 m-2 mr-1 bg-gray-200 border-gray-400" :class="{ 'active' : isActive }" @click="isActive = !isActive">
+        <div
+          v-for="box in boxes"
+          :key="id"
+          class="h-5 w-5 m-0.5 bg-gray-200 border-gray-400"
+          :class="{ 'active' : box.clicked }"
+          @click="toggleBoxColor(box)"
+        >
         </div>
       </div>
     </div>
@@ -30,7 +40,7 @@ let isActive = ref(true)
 <style>
 
 .active {
-background: green;
+  background: green;
 }
 
 </style>
