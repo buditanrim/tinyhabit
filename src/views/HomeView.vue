@@ -1,13 +1,84 @@
 <script setup>
+import { ref } from 'vue'
+
+const boxes = ref([
+  { id: 1, clicked: false },
+  { id: 2, clicked: false },
+  { id: 3, clicked: false },
+  { id: 4, clicked: false },
+  { id: 5, clicked: false },
+])
+
+function toggleBoxColor(box) {
+  box.clicked = !box.clicked;
+}
+
+const isEditing = ref(false);
+const habits = ref([])
+const newHabitItem = ref('')
+const saveItem = () => {
+  habits.value.push({id: habits.value.length + 1, label: newHabitItem.value})
+  newHabitItem.value =''
+}
+const doEdit = (bool)=> {
+  isEditing.value = bool
+  newHabitItem.value = ""
+}
+
 </script>
 
 <template>
   <main>
-    <div 
-      class="h-5 w-5 bg-sky-500" 
-      :class="{ 'active' : isActive }"
-      @click="isActive = !isActive"
-    >
+    <h1>Tiny Habit</h1>
+
+    <div id="add">
+      <button v-if="isEditing" @click="doEdit(false)">Cancel</button>
+      <button v-else @click="doEdit(true)">+</button>
     </div>
+
+    <form 
+      class="mb-4"
+      @submit.prevent="saveItem"
+      v-if="isEditing"
+    >
+      <input
+        v-model="newHabitItem"
+        type="text"
+        placeholder="Write your habit"
+        class="mr-4"
+      >
+      <button>
+        Create a habit
+      </button>
+    </form>
+
+    <div v-for="habit in habits">
+      {{ habit.label }}
+    </div>
+
+    <!-- <div id="habit-row" class="flex">
+      <div class="mr-2">
+        <p>Workout</p>
+      </div>
+      <div class="flex">
+        <div
+          v-for="box in boxes"
+          :key="id"
+          class="h-5 w-5 m-0.5 bg-gray-200 border-gray-400"
+          :class="{ 'active' : box.clicked }"
+          @click="toggleBoxColor(box)"
+        >
+        </div>
+      </div>
+    </div> -->
+    <p v-if="!habits.length">Start habits to achieve your goal</p>
   </main>
 </template>
+
+<style>
+
+.active {
+  background: green;
+}
+
+</style>
