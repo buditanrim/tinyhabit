@@ -13,12 +13,38 @@ function toggleBoxColor(box) {
   box.clicked = !box.clicked;
 }
 
-const habit = ref([])
+const habits = ref([])
+const newHabitItem = ref('')
+const saveItem = () => {
+  habits.value.push({id: habits.value.length + 1, label: newHabitItem.value})
+  newHabitItem.value =''
+}
 
 </script>
 
 <template>
   <main>
+    <h1>Tiny Habit</h1>
+
+    <form 
+      class="mb-4"
+      @submit.prevent="saveItem"
+    >
+      <input
+        v-model="newHabitItem"
+        type="text"
+        placeholder="Write your habit"
+        class="mr-4"
+      >
+      <button>
+        Create a habit
+      </button>
+    </form>
+
+    <div v-for="habit in habits">
+      {{ habit.label }}
+    </div>
+
     <div id="habit-row" class="flex">
       <div class="mr-2">
         <p>Workout</p>
@@ -34,6 +60,7 @@ const habit = ref([])
         </div>
       </div>
     </div>
+    <p v-if="!habits.length">Start habits to achieve your goal</p>
   </main>
 </template>
 
