@@ -13,11 +13,16 @@ function toggleBoxColor(box) {
   box.clicked = !box.clicked;
 }
 
+const isEditing = ref(false);
 const habits = ref([])
 const newHabitItem = ref('')
 const saveItem = () => {
   habits.value.push({id: habits.value.length + 1, label: newHabitItem.value})
   newHabitItem.value =''
+}
+const doEdit = (bool)=> {
+  isEditing.value = bool
+  newHabitItem.value = ""
 }
 
 </script>
@@ -26,9 +31,15 @@ const saveItem = () => {
   <main>
     <h1>Tiny Habit</h1>
 
+    <div id="add">
+      <button v-if="isEditing" @click="doEdit(false)">Cancel</button>
+      <button v-else @click="doEdit(true)">+</button>
+    </div>
+
     <form 
       class="mb-4"
       @submit.prevent="saveItem"
+      v-if="isEditing"
     >
       <input
         v-model="newHabitItem"
@@ -45,7 +56,7 @@ const saveItem = () => {
       {{ habit.label }}
     </div>
 
-    <div id="habit-row" class="flex">
+    <!-- <div id="habit-row" class="flex">
       <div class="mr-2">
         <p>Workout</p>
       </div>
@@ -59,7 +70,7 @@ const saveItem = () => {
         >
         </div>
       </div>
-    </div>
+    </div> -->
     <p v-if="!habits.length">Start habits to achieve your goal</p>
   </main>
 </template>
